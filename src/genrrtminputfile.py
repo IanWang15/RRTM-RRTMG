@@ -1,6 +1,6 @@
 # the H2O and O3 are from MLS data in a IDL save file
 # CO2, N2O, CO, CH4, O2, and number density are from
-# summer mid-latitude atmosphere with iterplation
+# summer mid-latitude atmosphere with iterpolation
 
 from os.path import dirname, join as pjoin
 import scipy.io as sio
