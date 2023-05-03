@@ -57,10 +57,27 @@ $ make check
 
 $ python validation-plots.py
 
-## transfer data to outside of Docker
+## Transfer data to outside of Docker
 
 In a different terminal
 
 $ sudo docker cp 83bXXX:/home/rrtmgp/rte-rrtmgp/tests/validation-figures.pdf /mnt/bigdrive/docker_transfer/
 
+## Run the RTE_RRTMGP
+
+For longwave simulation
+
+$ ./rrtmgp_rfmip_lw   8 multiple_input4MIPs_radiation_RFMIP_UColorado-RFMIP-1-2_none.nc ../../rrtmgp/data/rrtmgp-data-lw-g256-2018-12-04.nc
+
+For shortwave simulation
+
+$ ./rrtmgp_rfmip_sw   8 multiple_input4MIPs_radiation_RFMIP_UColorado-RFMIP-1-2_none.nc ../../rrtmgp/data/rrtmgp-data-sw-g224-2018-12-04.nc
+
+## After rebooting a server
+
+$ systemctl start docker
+
+Then, choose identity to authenticate
+
+$ sudo docker start containerID
 
