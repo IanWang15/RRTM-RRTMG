@@ -81,3 +81,71 @@ Then, choose identity to authenticate
 
 $ sudo docker start containerID
 
+
+
+# RRTMGP with aerosol simulation
+
+To be able to conduct aerosol simulation, I installed a new version of RRTMGP.
+
+## download docker image
+
+$ docker pull earthsystemradiation/rte-rrtmgp-ci:oneapi
+
+There are two versions available. Since the current AWS instance doesn’t have a GPU, I chose this version. Unlike the other one, this image does not include the RRTMGP model; it only contains the FORTRAN compiler. This might change, so it’s a good idea to search the Docker Hub for the latest version.
+
+## install docker image
+
+$ docker run -it --name rrtmgp-aerosol-test earthsystemradiation/rte-rrtmgp-ci:oneapi /bin/bash
+
+## install software in the docker container
+
+$ apt-get update && apt-get install -y wget bzip2
+
+$ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+
+$ bash miniconda.sh -b -p /opt/conda
+
+$ export PATH=/opt/conda/bin:$PATH
+
+$ conda init
+
+$ conda --version
+
+$ apt-get install -y vim
+
+Install python package by using the provided yml files.
+
+$ conda env create -f environment.yml
+
+$ conda env create -f environment-noplots.yml 
+
+$ conda env create -f environment-dev.yml 
+
+## download the RRTMGP data
+
+$ git clone https://github.com/earth-system-radiation/rrtmgp-data.git
+
+## compile
+
+The readme document is from here https://earth-system-radiation.github.io/rte-rrtmgp/how-tos/build-and-test.html
+
+$ echo $FC
+
+it returns "ifx", which is different than the document, so, it needs to update following the document. 
+
+$ export FC=ifort
+
+$ export FCFLAGS="-m64 -O3 -g -traceback -heap-arrays -assume realloc_lhs -extend-source 132"
+
+$ export RRTMGP_DATA=/root/rrtmgp-data/
+
+$ export RRTMGP_ROOT=~/rte-rrtmgp/
+
+## make
+
+Different folders have different Makefile, so I choose the all-sky folder. The $ make occurs error message in the RRTMGP_ROOT, but no error message in the all-sky folder.
+
+Then, go to ~/rte-rrtmgp/examples/all-sky/
+
+$ make
+
