@@ -149,3 +149,33 @@ Then, go to ~/rte-rrtmgp/examples/all-sky/
 
 $ make
 
+
+## running
+
+Login
+
+$ docker exec -it container_id /bin/bash
+
+It seems every time logged in, it needs the following steps.
+
+$ export FC=ifort
+
+$ export FCFLAGS="-m64 -O3 -g -traceback -heap-arrays -assume realloc_lhs -extend-source 132"
+
+$ export RRTMGP_DATA=/root/rrtmgp-data/
+
+$ export RRTMGP_ROOT=~/rte-rrtmgp/
+
+I used the following command to test in the direction "~/rte-rrtmgp/examples/all-sky/":
+
+$ ./rrtmgp_allsky 24 72 1 rrtmgp-allsky-lw.nc  ${RRTMGP_DATA}/rrtmgp-gas-lw-g256.nc ${RRTMGP_DATA}/rrtmgp-clouds-lw.nc ${RRTMGP_DATA}/rrtmgp-aerosols-merra-lw.nc 
+
+it returns as the following:
+
+  ncol   nlay   ngpt  clouds aerosols time_per_col_ms nloops time_total_s time_m
+ in_s
+    24     72    256       1        1           0.946      1        0.023      0.023
+
+The python environment I tested is the following
+
+$ conda activate rte_rrtmgp_test
